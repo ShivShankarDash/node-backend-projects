@@ -1,2 +1,4 @@
 task-cli/dist/
 task-cli/node_modules/
+github-activity/node_modules/
+github-activity/dist
