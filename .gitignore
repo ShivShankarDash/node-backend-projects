@@ -2,3 +2,5 @@ task-cli/dist/
 task-cli/node_modules/
 github-activity/node_modules/
 github-activity/dist
+expense-tracker/dist/
+expense-tracker/node_modules/
