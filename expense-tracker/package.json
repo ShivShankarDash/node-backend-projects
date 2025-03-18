@@ -11,5 +11,8 @@
   "description": "",
   "devDependencies": {
     "@types/express": "^5.0.0"
+  },
+  "dependencies": {
+    "json-2-csv": "^5.5.9"
   }
 }

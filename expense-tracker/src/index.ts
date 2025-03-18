@@ -3,6 +3,7 @@
 // Store the date in a json file
 
 const fs = require('fs');
+import {json2csv} from 'json-2-csv';
 
 interface Expense {
     id : number,
@@ -14,14 +15,15 @@ interface Expense {
 
 const expenseFilePath = __dirname + "/expenses.json";
 const expenseIdFilePath = __dirname + "/lastExpenseId.json";
+const csvFilePath = __dirname + "/expenses.csv";
 
 
 const Commands : Record<string, () => void> = {
     "add" : addExpense,
     "list" : listExpenses,
-     "summary" : summaryOfExpenses,
+     "summary" : summary,
      "delete" : deleteExpense,
-    // "export" : exportExpenses
+     "export" : exportExpenses
 
 }
 
@@ -83,6 +85,18 @@ function listExpenses() {
     }
 }
 
+function summary(){
+    if(process.argv[3] === "--category"){
+        summaryOfExpensesByCategory();
+    }
+    else if(process.argv[3] === "--date"){
+        summaryOfExpensesByDate();
+    }
+    else{
+        summaryOfExpenses();
+    }
+}
+
 function summaryOfExpenses(){
     const expenses : Expense[] = JSON.parse(fs.readFileSync(expenseFilePath,'utf-8'));
     let sumOfExpense = 0;
@@ -102,6 +116,40 @@ function deleteExpense() {
     })
 
 } 
+
+function summaryOfExpensesByCategory(){
+    const expenses : Expense[] = JSON.parse(fs.readFileSync(expenseFilePath,'utf-8'));
+    const categoryMap = new Map<string, number>();
+    for(const expense of expenses){
+        if(expense.category){
+            categoryMap.set(expense.category, (categoryMap.get(expense.category) || 0) + expense.amount);
+        }
+    }
+    for(const [category, sum] of categoryMap.entries()){
+        console.log(category + " : " + "$" + sum);
+    }
+}
+
+function summaryOfExpensesByDate(){
+    const expenses : Expense[] = JSON.parse(fs.readFileSync(expenseFilePath,'utf-8'));
+    const dateMap = new Map<string, number>();
+    for(const expense of expenses){
+        if(expense.date){
+            dateMap.set(expense.date, (dateMap.get(expense.date) || 0) + expense.amount);
+        }
+    }
+    for(const [date, sum] of dateMap.entries()){
+        console.log(date + " : " + "$" + sum);
+    }
+}
+
+function exportExpenses(){
+    const expenses : Expense[] = JSON.parse(fs.readFileSync(expenseFilePath,'utf-8'));
+    const csv = json2csv(expenses);
+    fs.writeFile(csvFilePath, csv, (err : Error)=>{
+        if(err) console.log(err);
+    })
+}
 
 
 const command = process.argv[2]?.toLowerCase();
