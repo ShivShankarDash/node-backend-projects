@@ -6,3 +6,5 @@ expense-tracker/dist/
 expense-tracker/node_modules/
 number-guesser/node_modules/
 number-guesser/dist
+unit-converter/node_modules
+unit-converter/dist
