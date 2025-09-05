@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unit Converter</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    .tabs { display: flex; margin-bottom: 20px; }
+    .tab {
+      padding: 10px 30px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background: #f9f9f9;
+      margin-right: 5px;
+      border-radius: 8px 8px 0 0;
+    }
+    .tab.active { background: #fff; font-weight: bold; border-bottom: 2px solid #fff; }
+    .tab-content { border: 1px solid #ccc; padding: 20px; border-radius: 0 8px 8px 8px; background: #fff; }
+    label { display: block; margin-top: 15px; }
+    select, input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; }
+    #result { margin-top: 20px; font-size: 1.2em; color: #007b00; }
+  </style>
+</head>
+<body>
+  <div class="tabs">
+    <div class="tab active" data-tab="length">Length</div>
+    <div class="tab" data-tab="weight">Weight</div>
+    <div class="tab" data-tab="temperature">Temperature</div>
+  </div>
+  <div class="tab-content">
+    <form id="converter-form">
+      <label id="input-label" for="value">Enter the length to convert:</label>
+      <input type="number" id="value" required step="any" />
+
+      <label for="from-unit">Unit to convert from:</label>
+      <select id="from-unit"></select>
+
+      <label for="to-unit">Unit to convert to:</label>
+      <select id="to-unit"></select>
+
+      <button type="submit">Convert</button>
+    </form>
+    <div id="result"></div>
+  </div>
+  <script src="../dist/index.js"></script>
+  <script>
+    const units = {
+      length: [
+        { name: "Meters", value: "m" },
+        { name: "Kilometers", value: "km" },
+        { name: "Miles", value: "mi" },
+        { name: "Feet", value: "ft" }
+      ],
+      weight: [
+        { name: "Kilograms", value: "kg" },
+        { name: "Grams", value: "g" },
+        { name: "Pounds", value: "lb" },
+        { name: "Ounces", value: "oz" }
+      ],
+      temperature: [
+        { name: "Celsius", value: "c" },
+        { name: "Fahrenheit", value: "f" },
+        { name: "Kelvin", value: "k" }
+      ]
+    };
+
+    const inputLabels = {
+      length: "Enter the length to convert:",
+      weight: "Enter the weight to convert:",
+      temperature: "Enter the temperature to convert:"
+    };
+
+    let currentTab = "length";
+
+    function populateUnits(tab) {
+      const fromUnit = document.getElementById("from-unit");
+      const toUnit = document.getElementById("to-unit");
+      fromUnit.innerHTML = "";
+      toUnit.innerHTML = "";
+      units[tab].forEach(u => {
+        const opt1 = document.createElement("option");
+        opt1.value = u.value;
+        opt1.textContent = u.name;
+        fromUnit.appendChild(opt1);
+
+        const opt2 = document.createElement("option");
+        opt2.value = u.value;
+        opt2.textContent = u.name;
+        toUnit.appendChild(opt2);
+      });
+      toUnit.selectedIndex = 1;
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        currentTab = this.getAttribute('data-tab');
+        console.log("Current tab:", currentTab); // <-- Add this line
+        document.getElementById('input-label').textContent = inputLabels[currentTab];
+        populateUnits(currentTab);
+        document.getElementById('result').textContent = '';
+      });
+    });
+
+    document.getElementById('converter-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const valueToConvert = parseFloat(document.getElementById("value").value);
+      const fromUnit = document.getElementById("from-unit").value;
+      const toUnit = document.getElementById("to-unit").value;
+      const result = converter(valueToConvert, currentTab, fromUnit, toUnit);
+      document.getElementById('result').textContent = `${result}`;
+    });
+
+    // Initialize
+    populateUnits(currentTab);
+  </script>
