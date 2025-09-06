@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personal Blog - Select Role</title>
+  <style>
+    body { display: flex; height: 100vh; justify-content: center; align-items: center; background: #f8f8f8; }
+    .selector { background: #fff; padding: 40px 60px; border-radius: 12px; box-shadow: 0 2px 12px #0001; text-align: center; }
+    select, button { font-size: 1.2em; margin-top: 20px; padding: 8px 20px; }
+  </style>
+</head>
+<body>
+  <div class="selector">
+    <h2>Choose your role</h2>
+    <select id="role-select">
+      <option value="">-- Select --</option>
+      <option value="admin">Admin</option>
+      <option value="user">User</option>
+    </select>
+    <br>
+    <button onclick="go()">Continue</button>
+  </div>
+  <script>
+    function go() {
+      const role = document.getElementById('role-select').value;
+      if (role === "admin") window.location.href = "admin/admin.html";
+      else if (role === "user") window.location.href = "user/home.html";
+      else alert("Please select a role.");
+    }
+  </script>
+</body>
+</html>

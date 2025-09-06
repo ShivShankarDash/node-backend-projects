@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Blog</title>
+  <style>
+    body { font-family: Arial; background: #f8f8f8; }
+    .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; }
+    .blog-title { font-size: 2em; font-weight: bold; }
+    .blog-date { color: #888; margin-bottom: 20px; display: block; }
+    .blog-content { margin-top: 20px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="blog-title" id="title"></div>
+    <span class="blog-date" id="date"></span>
+    <div class="blog-content" id="content"></div>
+  </div>
+  <script src="../config.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    fetch(`${window.API_BASE}/view/${id}`).then(res => res.json()).then(blog => {
+      document.getElementById('title').textContent = blog.title;
+      document.getElementById('date').textContent = blog.date;
+      document.getElementById('content').textContent = blog.content;
+    });
+  </script>
+</body>
+</html>

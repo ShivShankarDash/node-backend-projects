@@ -8,3 +8,6 @@ number-guesser/node_modules/
 number-guesser/dist
 unit-converter/node_modules
 unit-converter/dist
+personal-blog/node_modules
+personal-blog/dist
+personal-blog/frontend/config.js

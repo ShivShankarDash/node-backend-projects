@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Blog Home</title>
+  <style>
+    body { font-family: Arial; background: #f8f8f8; }
+    .container { max-width: 700px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; }
+    .blog-list { list-style: none; padding: 0; }
+    .blog-item { padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+    .blog-title { font-weight: bold; }
+    .blog-date { color: #888; margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>All Blogs</h2>
+    <ul class="blog-list" id="blog-list"></ul>
+  </div>
+  <script src="../config.js"></script>
+  <script>
+    async function fetchBlogs() {
+      const res = await fetch(`${window.API_BASE}/home`);
+      const blogs = await res.json();
+      const list = document.getElementById('blog-list');
+      list.innerHTML = '';
+      blogs.forEach(blog => {
+        const li = document.createElement('li');
+        li.className = 'blog-item';
+        li.onclick = () => window.location.href = `view.html?id=${blog.id}`;
+        li.innerHTML = `<span class="blog-title">${blog.title}</span>
+                        <span class="blog-date">${blog.date}</span>`;
+        list.appendChild(li);
+      });
+    }
+    fetchBlogs();
+  </script>
+</body>
+</html>

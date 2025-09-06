@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Blog</title>
+  <style>
+    body { font-family: Arial; background: #f8f8f8; }
+    .container { max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 10px; }
+    label { display: block; margin-top: 20px; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>New Blog</h2>
+    <form id="new-form">
+      <label>Title <input id="title" required></label>
+      <label>Date Published <input id="date" type="date" required></label>
+      <label>Content <textarea id="content" rows="8" required></textarea></label>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <script src="../config.js"></script>
+  <script>
+    document.getElementById('new-form').onsubmit = async function(e) {
+      e.preventDefault();
+      await fetch(`${window.API_BASE}/new`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: document.getElementById('title').value,
+          date: document.getElementById('date').value,
+          content: document.getElementById('content').value
+        })
+      });
+      window.location.href = 'admin.html';
+    }
+  </script>
+</body>
+</html>
