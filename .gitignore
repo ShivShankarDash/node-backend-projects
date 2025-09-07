@@ -11,3 +11,6 @@ unit-converter/dist
 personal-blog/node_modules
 personal-blog/dist
 personal-blog/frontend/config.js
+weather-api/node_modules
+weather-api/.env
+weather-api/dist
