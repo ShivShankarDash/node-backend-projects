@@ -152,7 +152,7 @@
       // You can adjust how you display the data below as needed
       widget.innerHTML = `
         <div class="widget">
-          <div class="temp">${data.days ? data.days[0].temp : data.temperature || "N/A"}°C</div>
+          <div class="temp">${data.days ? data.days[0].temp : data.temperature || "N/A"}°F</div>
           <div class="widget-location">${data.resolvedAddress || data.location || location}</div>
           <div class="widget-date">${startDate}${endDate ? " to " + endDate : ""}</div>
         </div>
