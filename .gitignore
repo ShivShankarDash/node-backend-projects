@@ -14,3 +14,4 @@ personal-blog/frontend/config.js
 weather-api/node_modules
 weather-api/.env
 weather-api/dist
+caching-proxy/node_modules
